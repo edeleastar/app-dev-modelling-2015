@@ -1,23 +1,22 @@
  <!DOCTYPE html>
  <html>
    <head>
-     <meta charset="utf-8" />
-     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
-   
-     <title> Lab-06 </title>
-   
+
      <link href='https://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
 
-     <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/semantic-ui/1.2.0/semantic.min.css" type='text/css'>
-     <script src="http://code.jquery.com/jquery-2.1.1.min.js"></script>
-     <script src="http://cdnjs.cloudflare.com/ajax/libs/semantic-ui/1.2.0/semantic.min.js"></script>
+     <meta charset="utf-8">
+     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-     <link  href="http://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.2/styles/solarized_light.min.css" rel="stylesheet" />
-     <script src="http://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.2/highlight.min.js"></script>
-     <script src="http://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.2/languages/java.min.js"></script>
+     <link href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css" rel="stylesheet" type="text/css">
+     <link href="http://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.2/styles/solarized_light.min.css" rel="stylesheet" />
+
+     <script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+     <script type="text/javascript" src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
+     <script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.2/highlight.min.js"></script>
+     <script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.2/languages/java.min.js"></script>
      <script>hljs.initHighlightingOnLoad();</script>
 
-    <style>
+      <style>
 
 
 body 
@@ -25,131 +24,100 @@ body
   font-family: "Open Sans", "Helvetica", "Helvetica Neue",  "Arial", sans-serif;
 }
 
-#container
+figcaption
 {
-  margin :10px
+  margin-bottom: 20px;
 }
+
+.vertical-align
+{
+  display: flex;
+  align-items: center;
+}
+
+.credits
+{
+  min-height:20px;
+}
+    </style>
+
+  </head>
+
+  <body>
+
+    <div class="container">
+<style>
+
 
 code
 {
-	font-family: "Monaco";
-	font-size: 110%;
+  font-family: "Monaco";
+  font-size: 110%;
 }
 
-h1 
+img
+{
+  padding:1px;
+  border:1px solid black;
+}
+
+h1
 {
   font-style:italic;
-  font-size:120%;
+  font-size:130%;
   border-bottom: thin solid black;
 }
-h2 
+h2
 {
   font-size:110%;
   border-bottom: thin solid black;
 }
-h3 
+h3
 {
   font-size:100%;
   border-bottom: thin solid black;
 }
 
-#footertext 
-{
-  font-size:70%
-}
+</style>
 
-#title 
-{
-  font-size:120%;
-  color: black;
-  text-align: right;
-  background-color : white;
-}
-
-img 
-{
-   padding:1px;
-   border:1px solid black;
-   margin-top: 10px;
-   margin-bottom: 10px;
-}
-
-header img
-{
-	 padding:1px;
-   border:0px solid black;
-}
-
-header h1
-{
-  font-style:normal;
-  font-size:120%;
-  border-bottom: 0px;
-}
-
-header h2
-{
-  font-style:normal;
-  font-size:100%;
-  border-bottom: 0px;
-}
-
-header h3
-{
-  font-style:normal;
-  font-size:90%;
-  border-bottom: 0px;
-}
-
-.cover
-{
-    width: 290px;
-    height: 290px;
-    border:1px solid lightgray;
-}
-.image-thumbnail
-{
-    height: 100%;
-    background-size: cover;
-    -moz-background-size: cover;
-    -webkit-background-size: cover;
-    background-position: center;
-}
-
-#container .card .description {
-  min-height: 200px;
-}
-
-    </style>
-
-  </head>
-  <body>
-  <nav class="ui fixed top pointing borderless inverted menu">
-    <header class="header item"> Git Repositories </header>
-    <div class="right tab-menu menu">
-          <a class="item" data-tab="Lab-06"> Lab-06 </a>
-          <a class="item" data-tab="01"> 01 </a>
-          <a class="item" data-tab="02"> 02 </a>
-          <a class="item" data-tab="03"> 03 </a>
-          <a class="item" data-tab="04"> 04 </a>
-          <a class="item" data-tab="05"> 05 </a>
-          <a class="item" data-tab="06"> 06 </a>
-          <a class="item" data-tab="07"> 07 </a>
-          <a class="item" data-tab="08"> 08 </a>
-          <a class="item" data-tab="09"> 09 </a>
-          <a class="item" data-tab="10"> 10 </a>
-          <a class="item" data-tab="Exercises"> Exercises </a>
+<div class="navbar navbar-default navbar-inverse navbar-fixed-top">
+  <div class="container">
+    <div class="navbar-header">
+      <a type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse"><span class="sr-only">Toggle navigation</span><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></a>
+      <div class="navbar-brand">
+        <a onclick="window.history.back()" href="#"> <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span> </a>
+        Git Repositories
+      </div>
     </div>
-  </nav>
+    <div class="collapse navbar-collapse navbar-ex1-collapse">
+      <ul class="nav navbar-nav navbar-right">
+        <li class="active"><a href= "#Lab-06" data-toggle="tab"> Lab-06 </a> </li>
+          <li><a href= "#01" data-toggle="tab"> 01 </a> </li>
+          <li><a href= "#02" data-toggle="tab"> 02 </a> </li>
+          <li><a href= "#03" data-toggle="tab"> 03 </a> </li>
+          <li><a href= "#04" data-toggle="tab"> 04 </a> </li>
+          <li><a href= "#05" data-toggle="tab"> 05 </a> </li>
+          <li><a href= "#06" data-toggle="tab"> 06 </a> </li>
+          <li><a href= "#07" data-toggle="tab"> 07 </a> </li>
+          <li><a href= "#08" data-toggle="tab"> 08 </a> </li>
+          <li><a href= "#09" data-toggle="tab"> 09 </a> </li>
+          <li><a href= "#10" data-toggle="tab"> 10 </a> </li>
+          <li><a href= "#Exercises" data-toggle="tab"> Exercises </a> </li>
+      </ul>
+    </div>
+  </div>
+</div>
 
-  <br>
+<br><br>
 
-	  <section data-tab="Lab-06" class="ui tab stacked moodle-book segment">
-	     <h1>Objectives</h1>
+<div class="tab-content">
+  <div class="tab-pane active" id="Lab-06">
+    <h1>Objectives</h1>
 <p>Set up a repository for a Play project in eclipse and progressively introduce and commit new features. Review the repository in Sourcetree and push the repository to bitbucket - a cloud provider of git services.</p>
-	  </section>
-	  <section data-tab="01" class="ui tab stacked moodle-book segment">
-	     <h1>Install Git, Sourcetree &amp; Egit</h1>
+  </div>
+
+    <div class="tab-pane fade" id="01">
+      <h1>Install Git, Sourcetree &amp; Egit</h1>
 <h2>Git</h2>
 <p>Download and install git on your pc:</p>
 <ul>
@@ -173,9 +141,9 @@ header h3
 <p>Press 'Ok' and select all components:</p>
 <p><img alt="" src="img/03.png"></p>
 <p>Press 'Next' and proceed through install, accepting license agreement on the way. Eclipse will need to restart for the changes to take effect.</p>
-	  </section>
-	  <section data-tab="02" class="ui tab stacked moodle-book segment">
-	     <h1>Create Schema Project</h1>
+    </div>
+    <div class="tab-pane fade" id="02">
+      <h1>Create Schema Project</h1>
 <p>Locate your current workspace folder and create a new play project called 'schema':</p>
 <pre><code>play new schema
 </code></pre>
@@ -205,9 +173,9 @@ play eclipsify
 
 <p>and refresh the page:</p>
 <p><img alt="" src="img/06.png"></p>
-	  </section>
-	  <section data-tab="03" class="ui tab stacked moodle-book segment">
-	     <h1>Commit Baseline Schema project to git repository</h1>
+    </div>
+    <div class="tab-pane fade" id="03">
+      <h1>Commit Baseline Schema project to git repository</h1>
 <p>Create a new file in your project folder called '.gitignore'. The file should contain the following:</p>
 <pre><code># Ignore all dotfiles...
 .*
@@ -258,9 +226,9 @@ server.pid
 <p>Make sure all files are selected, and enter the comit message as shown above. Press 'Commit',  and the project will now look slightly different:</p>
 <p><img alt="" src="img/14.png"></p>
 <p>These revised icons indicate that the files are now under git control.</p>
-	  </section>
-	  <section data-tab="04" class="ui tab stacked moodle-book segment">
-	     <h1>Create 'Walking Skeleton' Version</h1>
+    </div>
+    <div class="tab-pane fade" id="04">
+      <h1>Create 'Walking Skeleton' Version</h1>
 <p>We will now rebuild the project from Lab09, except this time we will commit each modification to git. Furthermore, we will commit these changes in stages, with suitable commit messages. In a later step we can inspect these messages and even revert to earlier versions if we wish.</p>
 <h2>Models</h2>
 <p>Create these two model classes in models:</p>
@@ -376,9 +344,9 @@ public class ClubTest extends UnitTest
 <li><a href="http://localhost:9000/@db">http://localhost:9000/@db</a></li>
 </ul>
 <p>This complete the 'walking skeleton' phase. </p>
-	  </section>
-	  <section data-tab="05" class="ui tab stacked moodle-book segment">
-	     <h1>Commit "Walking Skeleton" Version</h1>
+    </div>
+    <div class="tab-pane fade" id="05">
+      <h1>Commit "Walking Skeleton" Version</h1>
 <p>Look carefully at the project workspace:</p>
 <p><img alt="" src="img/15.png"></p>
 <p>Note the different icons.</p>
@@ -397,9 +365,9 @@ public class ClubTest extends UnitTest
 <p>Right click and select 'Team-&gt;Show in History':</p>
 <p><img alt="" src="img/18.png"></p>
 <p>This shows the two versions of the project we have committed to date. Note the 'id' and comment. We will come back to this view a little later.</p>
-	  </section>
-	  <section data-tab="06" class="ui tab stacked moodle-book segment">
-	     <h1>Commit Simple Player &amp; Club Tests</h1>
+    </div>
+    <div class="tab-pane fade" id="06">
+      <h1>Commit Simple Player &amp; Club Tests</h1>
 <p>Extend the Player class with this utility method:</p>
 <pre><code class="java">  public static Player findByName(String name)
   {
@@ -528,9 +496,9 @@ public class ClubTest extends UnitTest
 <p>This time we are not adding any new files, just changes to existing files. Try to notice the indicators in the project changing after the commit.</p>
 <p>We now have three 'commits' in the history view:</p>
 <p><img alt="" src="img/20.png"></p>
-	  </section>
-	  <section data-tab="07" class="ui tab stacked moodle-book segment">
-	     <h1>Commit Club/Player One to Many Relationship</h1>
+    </div>
+    <div class="tab-pane fade" id="07">
+      <h1>Commit Club/Player One to Many Relationship</h1>
 <p>Introduce a one-to-many relationship between club and player.</p>
 <p>First, introduce the following imports into Club:</p>
 <pre><code>import java.util.ArrayList;
@@ -623,9 +591,9 @@ import javax.persistence.OneToMany;
 <p>Now that the tests pass, commit the modifications to git. See if you can visual locate the (2) changed files first, and then commit them with the commit message "Club/Player one-to-many relationship with tests"</p>
 <p>Your history may now look something like this:</p>
 <p><img alt="" src="img/21.png"></p>
-	  </section>
-	  <section data-tab="08" class="ui tab stacked moodle-book segment">
-	     <h1>Manipulating Repository using Sourcetree</h1>
+    </div>
+    <div class="tab-pane fade" id="08">
+      <h1>Manipulating Repository using Sourcetree</h1>
 <h2>Loading the repository into Sourcetree</h2>
 <p>The repository - which contains all versions of your project, can be inspected in any tool that understands git. Open the Souretree tool you just downloaded.</p>
 <p><img alt="" src="img/23.png"></p>
@@ -656,9 +624,9 @@ import javax.persistence.OneToMany;
 <p>Browse the project on bitbucket:</p>
 <p><img alt="" src="img/31.png"></p>
 <p>In particular, have a look at the "Commits" view. It provides a more comprehensive view of all of the changes associated with a particular commit.</p>
-	  </section>
-	  <section data-tab="09" class="ui tab stacked moodle-book segment">
-	     <h1>Commit Bidirectional Player/Club</h1>
+    </div>
+    <div class="tab-pane fade" id="09">
+      <h1>Commit Bidirectional Player/Club</h1>
 <p>We will establish a relationship from player to club - making the existing association bi-directional</p>
 <h2>Club:</h2>
 <p>Change the OneToMany mapping in Club</p>
@@ -700,9 +668,9 @@ import javax.persistence.OneToMany;
 <p>Still in Eclipse, select "Team-&gt;Push to Upstream" (you will be asked for your password). This will push the most recent commit to your bitbucket repository. Browse to the bitbucket repo now and verify that the commit has worked. In particular look for the most recent commit message + changes.</p>
 <p>It should look something like this:</p>
 <p><img alt="" src="img/32.png"></p>
-	  </section>
-	  <section data-tab="10" class="ui tab stacked moodle-book segment">
-	     <h1>Checkout Earlier Revision</h1>
+    </div>
+    <div class="tab-pane fade" id="10">
+      <h1>Checkout Earlier Revision</h1>
 <p>Reverting to an earlier revision - without loosing later versions - is one of the key benefits of using git. We will try now to revert to a version of the project before we introduce the relationship between Club and Player. Locate the 'Repositories' view in eclipse:</p>
 <p><img alt="" src="img/33.png"></p>
 <p>We have 5 versions of the app in the repo. Note each of them has an id, message, author, date etc...</p>
@@ -775,9 +743,9 @@ public class Player extends Model
   }
 }
 </code></pre>
-	  </section>
-	  <section data-tab="Exercises" class="ui tab stacked moodle-book segment">
-	     <h1>Exercises</h1>
+    </div>
+    <div class="tab-pane fade" id="Exercises">
+      <h1>Exercises</h1>
 <h3>Check out experiments</h3>
 <p>Check out and execute each version of the schema app, one at a time. Verify that each version is as expected</p>
 <h3>Check out to another folder</h3>
@@ -786,56 +754,33 @@ public class Player extends Model
 <p>See if you can create a repository for a standard java application - perhaps your current programming assignment (as opposed to a Play app). Explore the repository both in eclipse and sourcetree.</p>
 <h2>Share your repo</h2>
 <p>Get the bitbucket name of one of your classmates. Find out how to share one of your repos with them.</p>
-	  </section>
-<script>
+    </div>
+</div>
+<br> <br>
 
-function addCaptions() {
-  var images = $(".moodle-book img");
-  jQuery.each(images, function(i)  {
-    if((images[i].alt).length > 0) 
-    {
-      var div_img = $(document.createElement("div")).addClass("ui segment");
-      $(images[i]).wrap(div_img);
-      var div_label = $(document.createElement("div")).addClass("ui ribbon teal top attached label");
-      div_label.append(images[i].alt);
-      $(div_label).insertBefore(images[i]);
-    }
-  });
-};
 
-// Need to check if we have already been loaded
-seen = 0;
+    </div>
+
+
+<div class="credits navbar navbar-default navbar-fixed-bottom" role="navigation">
+  <small>
+    Prepared by Eamonn de Leastar (edeleastar@wit.ie). Except where otherwise noted, this content is licensed under a
+    <a href="http://creativecommons.org/licenses/by-nc/4.0/" title="External link to http://creativecommons.org/licenses/by-nc/4.0/"
+        target="_blank">Creative Commons Attribution-NonCommercial 4.0 License
+    </a>
+    </small>
+</div>    <script>
 
 $(document).ready(function()
-{ 
-  if (seen == 0)
-  { 
-    // not loaded before - so do the restyling once (need to moodle book print)
-    $(".moodle-book img").addClass ("ui image");
-    $(".moodle-book pre").addClass ("ui segment");
-    addCaptions();
-    seen = 1;
-  }
+{
+  $("img").addClass ("img-responsive");
 
+  $(".tab-content img").each(function()
+  {
+    var title = this.alt;
+    $(this).after('<figcaption class="caption"> <em>'+ title +'</em></figcaption>');
+  });
+})    </script>
 
-})</script>
-  <br>  
-  <div class="ui fixed bottom borderless menu">'
-    <div class="ui small item"> 
-    <p id="footertext">
-    Prepared by  Eamonn de Leastar (edeleastar@wit.ie). Except where otherwise noted, this content is licensed under a  
-     <a  href="http://creativecommons.org/licenses/by-nc/4.0/" title="External link to http://creativecommons.org/licenses/by-nc/4.0/" 
-       target="_blank">Creative Commons Attribution-NonCommercial 4.0 License
-     </a>
-     </p>
-    </div>
-  </div>   
-    
-  <script>
-    $(document).ready(function()
-    {  
-      $('.tab-menu.menu .item').tab();
-    });
-  </script>   
   </body>
  </html>
