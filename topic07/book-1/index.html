@@ -1,0 +1,485 @@
+ <!DOCTYPE html>
+ <html>
+   <head>
+
+     <link href='https://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
+
+     <meta charset="utf-8">
+     <meta name="viewport" content="width=device-width, initial-scale=1">
+
+     <link href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css" rel="stylesheet" type="text/css">
+     <link href="http://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.2/styles/solarized_light.min.css" rel="stylesheet" />
+
+     <script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+     <script type="text/javascript" src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
+     <script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.2/highlight.min.js"></script>
+     <script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.2/languages/java.min.js"></script>
+     <script>hljs.initHighlightingOnLoad();</script>
+
+      <style>
+
+
+body 
+{
+  font-family: "Open Sans", "Helvetica", "Helvetica Neue",  "Arial", sans-serif;
+}
+
+figcaption
+{
+  margin-bottom: 20px;
+}
+
+.vertical-align
+{
+  display: flex;
+  align-items: center;
+}
+
+.credits
+{
+  min-height:20px;
+}
+    </style>
+
+  </head>
+
+  <body>
+
+    <div class="container">
+<style>
+
+
+code
+{
+  font-family: "Monaco";
+  font-size: 110%;
+}
+
+img
+{
+  padding:1px;
+  border:1px solid black;
+}
+
+h1
+{
+  font-style:italic;
+  font-size:130%;
+  border-bottom: thin solid black;
+}
+h2
+{
+  font-size:110%;
+  border-bottom: thin solid black;
+}
+h3
+{
+  font-size:100%;
+  border-bottom: thin solid black;
+}
+
+</style>
+
+<div class="navbar navbar-default navbar-inverse navbar-fixed-top">
+  <div class="container">
+    <div class="navbar-header">
+      <a type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse"><span class="sr-only">Toggle navigation</span><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></a>
+      <div class="navbar-brand">
+        <a onclick="window.history.back()" href="#"> <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span> </a>
+        Modelling
+      </div>
+    </div>
+    <div class="collapse navbar-collapse navbar-ex1-collapse">
+      <ul class="nav navbar-nav navbar-right">
+        <li class="active"><a href= "#Lab-07" data-toggle="tab"> Lab-07 </a> </li>
+          <li><a href= "#01" data-toggle="tab"> 01 </a> </li>
+          <li><a href= "#02" data-toggle="tab"> 02 </a> </li>
+          <li><a href= "#03" data-toggle="tab"> 03 </a> </li>
+          <li><a href= "#04" data-toggle="tab"> 04 </a> </li>
+          <li><a href= "#05" data-toggle="tab"> 05 </a> </li>
+          <li><a href= "#Exercises" data-toggle="tab"> Exercises </a> </li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<br><br>
+
+<div class="tab-content">
+  <div class="tab-pane active" id="Lab-07">
+    <h1>Objectives</h1>
+<p>Implement a phase 1 of solution to assignment 1</p>
+  </div>
+
+    <div class="tab-pane fade" id="01">
+      <h1>Spacebook Baseline</h1>
+<p>Even if you have completed a substantial amount of the assignment, download and include this projects here into your workspace:</p>
+<ul>
+<li><a href="archives/spacebook-assigment-base.zip">spacebook-assigment-base.zip</a></li>
+</ul>
+<p>(You must run 'play eclipsify' before importing)</p>
+<p>Run the app and familiarize yourself with the features as implemented so far.</p>
+    </div>
+    <div class="tab-pane fade" id="02">
+      <h1>Moving posts to their own Views</h1>
+<p>Introduce a a new 'component' view:</p>
+<h2>Views/components/displaypostsummaries.html</h2>
+<pre><code>&lt;section class=&quot;ui stacked segment&quot;&gt;
+  &lt;h4 class=&quot;ui inverted blue block header&quot;&gt;Published Posts&lt;/h4&gt;
+  #{list items:user.posts, as:'post'}
+    &lt;div class=&quot;ui item&quot;&gt; 
+      &lt;i class=&quot;url large basic icon&quot;&gt;&lt;/i&gt;
+      &lt;a href=&quot;/blogpost/view/${post.id}&quot;&gt; ${post.title} &lt;/a&gt; 
+    &lt;/div&gt;
+  #{/list}
+&lt;/sectiion&gt;
+</code></pre>
+
+<p>Change Views/Blog/index.html view to include the 'displaypostsummaries.html instead of 'displayposts.html':</p>
+<h2>View/Blog/index.html</h2>
+<pre><code>...
+&lt;h1 class=&quot;ui inverted teal block header&quot; &gt;Blog  &lt;/h1&gt;
+&lt;section class=&quot;ui two column grid segment&quot;&gt;
+  &lt;div class=&quot;row&quot;&gt;
+    &lt;div class=&quot;ui column&quot;&gt;
+      #{include &quot;components/createpost.html&quot; /} 
+    &lt;/div&gt;
+    &lt;div class=&quot;column&quot;&gt;
+      #{include &quot;components/displaypostsummaries.html&quot; /} 
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/section&gt;
+</code></pre>
+
+<p>Introduce a new controller called 'BlogPost'. </p>
+<h2>controllers/BlogPost:</h2>
+<pre><code>package controllers;
+
+import java.util.List;
+
+import models.Message;
+import models.Post;
+import models.User;
+import play.Logger;
+import play.mvc.Controller;
+
+public class BlogPost  extends Controller
+{
+  public static void view(Long postid)
+  {
+    Logger.info(&quot;Post ID = &quot; + postid);
+    Post post = Post.findById(postid);
+    render (post);
+  }
+}
+</code></pre>
+
+<p>With a matching view:</p>
+<h2>Views/BlogPost/view.html</h2>
+<pre><code>#{extends 'main.html' /}
+#{set title:'Blog' /}
+
+&lt;nav class=&quot;ui inverted menu&quot;&gt;
+  &lt;header class=&quot;header item&quot;&gt; Spacebook &lt;/header&gt;
+  &lt;div class=&quot;right menu&quot;&gt;
+    &lt;a class=&quot;active item&quot; href=&quot;/blog&quot;&gt;Blog&lt;/a&gt;
+  &lt;/div&gt;
+&lt;/nav&gt; 
+
+&lt;section class=&quot;ui stacked segment&quot;&gt;
+  &lt;h5 class=&quot;ui inverted green block header&quot;&gt; ${post.title}&lt;/h5&gt;
+  &lt;p&gt; 
+    ${post.content}:
+  &lt;/p&gt;
+  &lt;a href=&quot;/blog/deletepost/${post.id}&quot; class=&quot;ui button red labeled icon&quot;&gt;&lt;i class=&quot;icon delete&quot;&gt;&lt;/i&gt; Delete &lt;/a&gt;
+&lt;/section&gt;
+</code></pre>
+
+<p>This needs a matching route:</p>
+<pre><code># BlogPost
+GET   /blogpost/view/{postid}                   BlogPost.view
+</code></pre>
+
+<p>This should establish each post with its own view, and links to these views from the main blog view. Try it out now and make sure it works before proceeding.</p>
+    </div>
+    <div class="tab-pane fade" id="03">
+      <h1>Delete Post Support</h1>
+<p>To delete a post, we need this method in the Blog Controller:</p>
+<h2>controllers/Blog</h2>
+<pre><code>  public static void deletePost(Long postid)
+  {    
+    User user = Accounts.getLoggedInUser(); 
+    Post post = Post.findById(postid);
+    Logger.info (&quot;Request to delete title:&quot; + post.title + &quot; content:&quot; + post.content);
+
+    user.posts.remove(post);
+
+    user.save();
+    post.delete();
+
+    index();
+  }
+</code></pre>
+
+<p>This route:</p>
+<h2>conf/routes:</h2>
+<pre><code>GET   /blog/deletepost/{postid}                 Blog.deletePost
+</code></pre>
+
+<p>We then insert a button onto the end of each post:</p>
+<h2>Views/BlogPost/view.html</h2>
+<pre><code>...
+&lt;section class=&quot;ui stacked segment&quot;&gt;
+  &lt;h5 class=&quot;ui inverted green block header&quot;&gt; ${post.title}&lt;/h5&gt;
+  &lt;p&gt; 
+    ${post.content}:
+  &lt;/p&gt;
+  &lt;a href=&quot;/blog/deletepost/${post.id}&quot; class=&quot;ui button red labeled icon&quot;&gt;&lt;i class=&quot;icon delete&quot;&gt;&lt;/i&gt; Delete &lt;/a&gt;
+&lt;/section&gt;
+</code></pre>
+
+<p>Run this now, and verify that you can safely delete posts.</p>
+    </div>
+    <div class="tab-pane fade" id="04">
+      <h1>Comment model + Tests</h1>
+<p>Introduce a new Commment model class:</p>
+<h2>models/Commet:</h2>
+<pre><code>package models;
+
+import java.util.Date;
+import javax.persistence.Entity;
+import javax.persistence.Lob;
+import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
+
+import play.db.jpa.Model;
+
+@Entity
+public class Comment extends Model
+{
+  @Lob
+  public String content;
+
+  @OneToOne 
+  public User author;
+
+  public Date postedAt;
+
+  public Comment(User author, String content)
+  {
+    this.author   = author;
+    this.content  = content;
+    this.postedAt = new Date();
+  }
+}
+</code></pre>
+
+<p>This models the comment text, the author + the time when the comment was created.</p>
+<p>Extend the Post class to use keep a collection of these:</p>
+<h2>models/Post:</h2>
+<pre><code>...
+  @OneToMany
+  public List&lt;Comment&gt; comments = new ArrayList&lt;Comment&gt;();
+...
+</code></pre>
+
+<p>We need a test to make sure this actually works:</p>
+<h2>test/CommentTest:</h2>
+<pre><code>import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
+import models.Comment;
+import models.Message;
+import models.Post;
+import models.User;
+
+import org.junit.After;
+import org.junit.Before;
+import org.junit.BeforeClass;
+import org.junit.Test;
+
+import play.test.Fixtures;
+import play.test.UnitTest;
+
+
+public class CommentTest  extends UnitTest
+{
+  private User bob;
+  private Post aPost;
+
+  @BeforeClass
+  public static void loadDB()
+  {
+    Fixtures.deleteAllModels();
+  }
+
+  @Before
+  public void setup()
+  {
+    bob   = new User(&quot;bob&quot;, &quot;jones&quot;, &quot;bob@jones.com&quot;, &quot;secret&quot;,20, &quot;irish&quot;);
+    aPost = new Post (&quot;Post A&quot;, &quot;This is the post A content&quot;);
+    bob.posts.add(aPost);
+    aPost.save();
+    bob.save();
+  }
+
+  @After
+  public void teardown()
+  {
+    bob.delete();
+    aPost.delete();
+  }
+
+  @Test
+  public void testAddDeleteComment()
+  {
+    User user = User.findByEmail(&quot;bob@jones.com&quot;);
+    Comment comment1 = new Comment(user, &quot;Comment 1&quot;);
+    comment1.save();
+
+
+    Post post = user.posts.get(0);
+    post.comments.add(comment1);
+    post.save();
+    user.save();
+
+    User anotherUser = User.findByEmail(&quot;bob@jones.com&quot;);
+    assertEquals(&quot;Comment 1&quot;, anotherUser.posts.get(0).comments.get(0).content);
+
+    post.comments.clear();
+    post.save();
+    comment1.delete();
+
+    User yetAnotherUser = User.findByEmail(&quot;bob@jones.com&quot;);
+    assertEquals(0, yetAnotherUser.posts.get(0).comments.size());
+  }
+}
+</code></pre>
+
+<p>Run the application in test mode:</p>
+<pre><code>play test
+</code></pre>
+
+<p>and then browse to:</p>
+<ul>
+<li><a href="&#109;&#97;&#105;&#108;&#116;&#111;&#58;&#108;&#111;&#99;&#97;&#108;&#104;&#111;&#115;&#116;&#58;&#57;&#48;&#48;&#48;&#47;&#64;&#116;&#101;&#115;&#116;&#115;">&#108;&#111;&#99;&#97;&#108;&#104;&#111;&#115;&#116;&#58;&#57;&#48;&#48;&#48;&#47;&#64;&#116;&#101;&#115;&#116;&#115;</a></li>
+</ul>
+<p>and see if all the tests run correctly.</p>
+    </div>
+    <div class="tab-pane fade" id="05">
+      <h1>Comment UI</h1>
+<p>This time we will start with a new route:</p>
+<h2>conf/routes:</h2>
+<pre><code>POST  /blogpost/comment/{postid}                BlogPost.newComment
+</code></pre>
+
+<p>We need to extend the BlogPost controller to respond to this route:</p>
+<pre><code>  public static void newComment(Long postid, String content)
+  {    
+    Logger.info(&quot;Post ID = &quot; + postid);
+    Post post = Post.findById(postid);
+    User user = Accounts.getLoggedInUser();
+
+    Comment comment = new Comment(user, content);
+    comment.save();
+
+    post.comments.add(comment);
+    post.save();
+    view(postid);
+  } 
+</code></pre>
+
+<p>(Import comment to get this to compile correctly)</p>
+<p>Replace the BlogPost view with the following:</p>
+<h2>views/BlogPost/view.html</h2>
+<pre><code>#{extends 'main.html' /}
+#{set title:'Blog' /}
+
+&lt;nav class=&quot;ui inverted menu&quot;&gt;
+  &lt;header class=&quot;header item&quot;&gt; Spacebook &lt;/header&gt;
+  &lt;div class=&quot;right menu&quot;&gt;
+    &lt;a class=&quot;active item&quot; href=&quot;/blog&quot;&gt;Blog&lt;/a&gt;
+  &lt;/div&gt;
+&lt;/nav&gt; 
+
+&lt;section class=&quot;ui stacked segment&quot;&gt;
+  &lt;h5 class=&quot;ui inverted green block header&quot;&gt; ${post.title}&lt;/h5&gt;
+  &lt;p&gt; 
+    ${post.content}:
+  &lt;/p&gt;
+  &lt;a href=&quot;/blog/deletepost/${post.id}&quot; class=&quot;ui button red labeled icon&quot;&gt;&lt;i class=&quot;icon delete&quot;&gt;&lt;/i&gt; Delete &lt;/a&gt;
+
+  &lt;section class=&quot;ui stacked segment&quot;&gt;
+    &lt;h5 class=&quot;ui inverted blue block header&quot;&gt;Comments:&lt;/h5&gt;
+    #{list items:post.comments, as:'comment'}
+      &lt;p&gt; 
+        ${comment.content}
+        &lt;hr&gt;
+      &lt;/p&gt;
+    #{/list}  
+  &lt;/section&gt;
+
+&lt;/section&gt;
+
+&lt;section class=&quot;ui form segment&quot;&gt;
+  &lt;h4 class=&quot;ui inverted blue block header&quot;&gt;Add a comment&lt;/h4&gt;
+  &lt;form action=&quot;/blogpost/comment/${post.id}&quot; method=&quot;POST&quot;&gt;
+    &lt;div class=&quot;field&quot;&gt;
+      &lt;textarea name=&quot;content&quot; placeholder=&quot;Content&quot;&gt;&lt;/textarea&gt;
+    &lt;/div&gt;
+    &lt;button class=&quot;ui button green submit labeled icon&quot;&gt;&lt;i class=&quot;icon edit&quot;&gt;&lt;/i&gt; Add Comment &lt;/button&gt;
+  &lt;/form&gt;
+&lt;/section&gt;
+</code></pre>
+
+<p>Read the above very carefully - and note how the comments are listed after the post - and that a comment form is included at the end to allow new comments to be created. Also, make sure you can delete posts without incident.</p>
+<p>We will make one more subtle change to make sure our delete post cleans up any attached comments correctly. Change the Post model as follows:</p>
+<h2>models/Post:</h2>
+<pre><code>...
+  @OneToMany (cascade=CascadeType.ALL)
+  public List&lt;Comment&gt; comments = new ArrayList&lt;Comment&gt;();
+...
+</code></pre>
+
+<p>The 'cascade' means that when we delete a post, all comments will be deleted as well.</p>
+    </div>
+    <div class="tab-pane fade" id="Exercises">
+      <h2>Exercises</h2>
+<p>Even if you have implemented the steps correctly, down, unzip and import this solution:</p>
+<p><a href="archives/spacebook-assignment-part-1.zip">spacebook-assignment-part-1.zip</a></p>
+<p>Compare this solution so far with your own assignment. </p>
+<ul>
+<li>Are there differences in your approach?</li>
+</ul>
+    </div>
+</div>
+<br> <br>
+
+
+    </div>
+
+
+<div class="credits navbar navbar-default navbar-fixed-bottom" role="navigation">
+  <small>
+    Prepared by Eamonn de Leastar (edeleastar@wit.ie). Except where otherwise noted, this content is licensed under a
+    <a href="http://creativecommons.org/licenses/by-nc/4.0/" title="External link to http://creativecommons.org/licenses/by-nc/4.0/"
+        target="_blank">Creative Commons Attribution-NonCommercial 4.0 License
+    </a>
+    </small>
+</div>    <script>
+
+$(document).ready(function()
+{
+  $("img").addClass ("img-responsive");
+
+  $(".tab-content img").each(function()
+  {
+    var title = this.alt;
+    $(this).after('<figcaption class="caption"> <em>'+ title +'</em></figcaption>');
+  });
+})    </script>
+
+  </body>
+ </html>
