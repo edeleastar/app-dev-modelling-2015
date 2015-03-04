@@ -1,0 +1,316 @@
+ <!DOCTYPE html>
+ <html>
+   <head>
+
+     <link href='https://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
+
+     <meta charset="utf-8">
+     <meta name="viewport" content="width=device-width, initial-scale=1">
+
+     <link href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css" rel="stylesheet" type="text/css">
+     <link href="http://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.2/styles/solarized_light.min.css" rel="stylesheet" />
+
+     <script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+     <script type="text/javascript" src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
+     <script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.2/highlight.min.js"></script>
+     <script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.2/languages/java.min.js"></script>
+     <script>hljs.initHighlightingOnLoad();</script>
+
+      <style>
+
+
+body 
+{
+  font-family: "Open Sans", "Helvetica", "Helvetica Neue",  "Arial", sans-serif;
+}
+
+figcaption
+{
+  margin-bottom: 20px;
+}
+
+.vertical-align
+{
+  display: flex;
+  align-items: center;
+}
+
+.credits
+{
+  min-height:20px;
+}
+    </style>
+
+  </head>
+
+  <body>
+
+    <div class="container">
+<style>
+
+
+code
+{
+  font-family: "Monaco";
+  font-size: 110%;
+}
+
+img
+{
+  padding:1px;
+  border:1px solid black;
+}
+
+h1
+{
+  font-style:italic;
+  font-size:130%;
+  border-bottom: thin solid black;
+}
+h2
+{
+  font-size:110%;
+  border-bottom: thin solid black;
+}
+h3
+{
+  font-size:100%;
+  border-bottom: thin solid black;
+}
+
+</style>
+
+<div class="navbar navbar-default navbar-inverse navbar-fixed-top">
+  <div class="container">
+    <div class="navbar-header">
+      <a type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse"><span class="sr-only">Toggle navigation</span><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></a>
+      <div class="navbar-brand">
+        <a onclick="window.history.back()" href="#"> <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span> </a>
+        Modelling
+      </div>
+    </div>
+    <div class="collapse navbar-collapse navbar-ex1-collapse">
+      <ul class="nav navbar-nav navbar-right">
+        <li class="active"><a href= "#Lab-08" data-toggle="tab"> Lab-08 </a> </li>
+          <li><a href= "#01" data-toggle="tab"> 01 </a> </li>
+          <li><a href= "#02" data-toggle="tab"> 02 </a> </li>
+          <li><a href= "#03" data-toggle="tab"> 03 </a> </li>
+          <li><a href= "#Exercises" data-toggle="tab"> Exercises </a> </li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<br><br>
+
+<div class="tab-content">
+  <div class="tab-pane active" id="Lab-08">
+    <h1>Objectives</h1>
+<p>The play framework has a feature call 'Tags' which offer a more sophisticated mechanism for aggregating view from multiple elements. This lab will explore this feature in detail, and conclude with an exercise inviting you to create your own tag.</p>
+  </div>
+
+    <div class="tab-pane fade" id="01">
+      <h1>Settings Menu</h1>
+<p>The starting point of this lab is the solution from the previous lab:</p>
+<ul>
+<li><a href="archives/spacebook-assignment-part-1.zip">spacebook-assignment-part-1.zip</a></li>
+</ul>
+<p>Introduce a new settings menu, which is to be a drop down on the far right of the menu bar. The drop down is to have a 'logout' and a 'settings' menu item.</p>
+<h2>Settings</h2>
+<p>Create a new folder called <code>tags</code> in the <code>views</code> folder. In this folder create a file called <code>settings.html</code></p>
+<pre><code>  &lt;div class=&quot;right menu&quot;&gt;
+    &lt;div class=&quot;ui dropdown item&quot;&gt;
+      &lt;i class=&quot;user icon&quot;&gt;&lt;/i&gt;
+      &lt;div class=&quot;menu&quot;&gt;
+        &lt;a class=&quot;item&quot; href=&quot;/editprofile&quot;&gt;Settings&lt;/a&gt;  
+        &lt;a class=&quot;item&quot; href=&quot;/logout&quot;&gt;Logout&lt;/a&gt; 
+      &lt;/div&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+</code></pre>
+
+<p>This is a new menu, which we will incorporate into our menus. </p>
+<h2>main.html</h2>
+<p>In views/main.html, incporprate the following before closing <code>&lt;body&gt;</code> tag:</p>
+<pre><code>    &lt;script&gt;
+      $('.ui.dropdown').dropdown();
+    &lt;/script&gt;
+</code></pre>
+
+<p>This script is necessary to enable the drop down capability of the menu.</p>
+<h2>Menu Changes</h2>
+<p>For each of the <code>&lt;nav&gt;</code> sections in each of the pages, we will need to include the above menu. Note that we also delete the existing 'logout' link in each nav/</p>
+<h2>views/Home/index.html</h2>
+<pre><code>&lt;nav class=&quot;ui inverted menu&quot;&gt;
+  &lt;header class=&quot;header item&quot;&gt; Spacebook &lt;/header&gt;
+  &lt;div class=&quot;right menu&quot;&gt;
+    &lt;a class=&quot;active item&quot; href=&quot;/home&quot;&gt;Home&lt;/a&gt;&lt;/li&gt;
+    &lt;a class=&quot;item&quot; href=&quot;/members&quot;&gt;Members&lt;/a&gt;
+    &lt;a class=&quot;item&quot; href=&quot;/profile&quot;&gt;Profile&lt;/a&gt;
+    &lt;a class=&quot;item&quot; href=&quot;/blog&quot;&gt;Blog&lt;/a&gt;
+    #{settingsmenu /}
+  &lt;/div&gt;
+&lt;/nav&gt; 
+</code></pre>
+
+<h2>views/Members/index.html</h2>
+<pre><code>&lt;nav class=&quot;ui inverted menu&quot;&gt;
+  &lt;header class=&quot;header item&quot;&gt; Spacebook &lt;/header&gt;
+  &lt;div class=&quot;right menu&quot;&gt;
+    &lt;a class=&quot;item&quot; href=&quot;/home&quot;&gt;Home&lt;/a&gt;&lt;/li&gt;
+    &lt;a class=&quot;active item&quot; href=&quot;/members&quot;&gt;Members&lt;/a&gt;
+    &lt;a class=&quot;item&quot; href=&quot;/profile&quot;&gt;Profile&lt;/a&gt;
+    &lt;a class=&quot;item&quot; href=&quot;/blog&quot;&gt;Blog&lt;/a&gt;    
+    #{settingsmenu /}
+  &lt;/div&gt;
+&lt;/nav&gt; 
+</code></pre>
+
+<h2>views/Profile/index.html</h2>
+<pre><code>&lt;nav class=&quot;ui inverted menu&quot;&gt;
+  &lt;header class=&quot;header item&quot;&gt; Spacebook &lt;/header&gt;
+  &lt;div class=&quot;right menu&quot;&gt;
+    &lt;a class=&quot;item&quot; href=&quot;/home&quot;&gt;Home&lt;/a&gt;&lt;/li&gt;
+    &lt;a class=&quot;item&quot; href=&quot;/members&quot;&gt;Members&lt;/a&gt;
+    &lt;a class=&quot;active item&quot; href=&quot;/profile&quot;&gt;Profile&lt;/a&gt;
+    &lt;a class=&quot;item&quot; href=&quot;/blog&quot;&gt;Blog&lt;/a&gt;    
+    #{settingsmenu /}
+  &lt;/div&gt;
+&lt;/nav&gt; 
+</code></pre>
+
+<p>Finally, we remove the 'Edit' button from the <code>components/profileimages.html</code> component:</p>
+<pre><code>  &lt;a href=&quot;/editprofile&quot; class=&quot;ui button&quot;&gt; Edit &lt;/a&gt;
+</code></pre>
+
+<p>(delete the above)</p>
+<p>What we have implemented above is an example of <code>Tags</code>:</p>
+<ul>
+<li><a href="https://www.playframework.com/documentation/1.3.x/templates#tags">https://www.playframework.com/documentation/1.3.x/templates#tags</a></li>
+</ul>
+<p>Contrast this approach with the 'include' mechanism we have been using to aggregate templates. Can you see the (minor) differences?</p>
+    </div>
+    <div class="tab-pane fade" id="02">
+      <h1>mainmenu Tag</h1>
+<p>Create another new <code>tag</code> file in the <code>tags</code> folder:</p>
+<h2>views/tags/mainmenu.html</h2>
+<pre><code>&lt;nav class=&quot;ui inverted main menu&quot;&gt;
+  &lt;div class=&quot;title item&quot;&gt; Spacebook &lt;/div&gt;
+  &lt;a id=&quot;home&quot;    class=&quot;item&quot; href=&quot;/home&quot;&gt;Home&lt;/a&gt;
+  &lt;a id=&quot;members&quot; class=&quot;item&quot; href=&quot;/members&quot;&gt;Members&lt;/a&gt;
+  &lt;a id=&quot;profile&quot; class=&quot;item&quot; href=&quot;/profile&quot;&gt;Profile&lt;/a&gt;
+  &lt;a id=&quot;blog&quot;    class=&quot;item&quot; href=&quot;/blog&quot;&gt;Blog&lt;/a&gt;
+  #{settingsmenu /}
+&lt;/nav&gt; 
+
+&lt;script&gt;
+  $(&quot;#${_id}&quot;).addClass(&quot;active item&quot;);
+&lt;/script&gt;
+</code></pre>
+
+<p>This is a new <code>smart</code> tag - which can accept a parameter. In this case, the parameter <code>_id</code> will be the <code>active</code> menu item. We can now significantly simplify all the menu sections of the views:</p>
+<h2>views/Home/index.html</h2>
+<p>Replace the complete <code>&lt;nav&gt;</code> section with the following:</p>
+<pre><code>#{mainmenu id:&quot;home&quot;/}
+</code></pre>
+
+<p>i.e. remove the entire <code>&lt;nav&gt;</code> section!</p>
+<h2>views/Members/index.html</h2>
+<pre><code>#{mainmenu id:&quot;members&quot;/} 
+</code></pre>
+
+<h2>views/Profile/index.html</h2>
+<pre><code>#{mainmenu id:&quot;profile&quot; /}
+</code></pre>
+
+<h2>views/Blog/index.html</h2>
+<pre><code>#{mainmenu id:&quot;blog&quot;/} 
+</code></pre>
+    </div>
+    <div class="tab-pane fade" id="03">
+      <h1>statusupdate Tag</h1>
+<p>You may have noticed that when we update the status from the home page - we are taken to the Profile page when you submit the change. This is an anomaly, which is unavoidable due to the way we have currently implement the feature. We will try to fix that here.</p>
+<h2>conf/routes</h2>
+<p>First some a new route:</p>
+<pre><code>POST    /home/changestatus                      Home.changeStatus
+</code></pre>
+
+<p>Which will be another way of changing the status - this time implemented in the Home controller.</p>
+<h2>controllers/Home.java</h2>
+<p>The new method to service the above route:</p>
+<pre><code>  public static void changeStatus(String statusText)
+  {
+    User user = Accounts.getLoggedInUser();
+    user.statusText = statusText;
+    user.save();
+    Logger.info(&quot;Status changed to &quot; + statusText);
+    index();
+  }
+</code></pre>
+
+<h2>Views/taga/statusupdate.html</h2>
+<p>Create a new <code>tag</code>:</p>
+<pre><code>&lt;section class=&quot;ui stacked segment&quot;&gt;
+  &lt;h4 class=&quot;ui inverted red block header&quot;&gt; Status&lt;/h4&gt;
+  &lt;div class=&quot;ui message&quot;&gt;
+    &lt;p&gt; ${_status} &lt;/p&gt;
+  &lt;/div&gt;
+   &lt;section class=&quot;ui form segment&quot;&gt;
+    &lt;form action=&quot;${_route}&quot; method=&quot;POST&quot;&gt;
+      &lt;div class=&quot;field&quot;&gt;
+        &lt;textarea name=&quot;statusText&quot;&gt;&lt;/textarea&gt;
+      &lt;/div&gt;
+      &lt;button class=&quot;ui button teal submit labeled icon&quot;&gt;&lt;i class=&quot;icon edit&quot;&gt;&lt;/i&gt; Update &lt;/button&gt;
+    &lt;/form&gt;
+  &lt;/section&gt;
+&lt;/section&gt;  
+</code></pre>
+
+<p>Notice in the above we are expecting the route to be in <code>_route</code> - and this is what we use in the action of the form?</p>
+<h2>Views/Home/index.html</h2>
+<p>Finally, in the Home view, we engage this tag (instead of including the component)</p>
+<pre><code>      #{statusupdate route:&quot;/home/changestatus&quot;, status:&quot;${user.statusText}&quot; /} 
+</code></pre>
+
+<p>You should be able to put all these pieces together now and test.</p>
+    </div>
+    <div class="tab-pane fade" id="Exercises">
+      <h1>Exercises</h1>
+<h2>Exercise 1:</h2>
+<p>Views/Home/Profile currently contains this include:</p>
+<pre><code>      #{include &quot;components/statusupdate.html&quot; /}   
+</code></pre>
+
+<p>Replace it with the appropriate use of the tag developed in the last step. You should be able to remove the <code>components/statusupdate.html</code> file when this is completed.</p>
+<h2>Exercise 2:</h2>
+<p>Develop a new tag called 'profileimage'. The purpose of this tag is to encapsulate the image upload feature. It is to be included by the Home and Profile views, so that the same tag can be used from those views. Use the structure of the statusupdate tag for inspiration.</p>
+    </div>
+</div>
+<br> <br>
+
+
+    </div>
+
+
+<div class="credits navbar navbar-default navbar-fixed-bottom" role="navigation">
+  <small>
+    Prepared by Eamonn de Leastar (edeleastar@wit.ie). Except where otherwise noted, this content is licensed under a
+    <a href="http://creativecommons.org/licenses/by-nc/4.0/" title="External link to http://creativecommons.org/licenses/by-nc/4.0/"
+        target="_blank">Creative Commons Attribution-NonCommercial 4.0 License
+    </a>
+    </small>
+</div>    <script>
+
+$(document).ready(function()
+{
+  $("img").addClass ("img-responsive");
+
+  $(".tab-content img").each(function()
+  {
+    var title = this.alt;
+    $(this).after('<figcaption class="caption"> <em>'+ title +'</em></figcaption>');
+  });
+})    </script>
+
+  </body>
+ </html>
