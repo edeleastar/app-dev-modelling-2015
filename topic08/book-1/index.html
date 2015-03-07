@@ -1,0 +1,487 @@
+ <!DOCTYPE html>
+ <html>
+   <head>
+
+     <link href='https://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
+
+     <meta charset="utf-8">
+     <meta name="viewport" content="width=device-width, initial-scale=1">
+
+     <link href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css" rel="stylesheet" type="text/css">
+     <link href="http://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.2/styles/solarized_light.min.css" rel="stylesheet" />
+
+     <script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+     <script type="text/javascript" src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
+     <script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.2/highlight.min.js"></script>
+     <script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.2/languages/java.min.js"></script>
+     <script>hljs.initHighlightingOnLoad();</script>
+
+      <style>
+
+
+body 
+{
+  font-family: "Open Sans", "Helvetica", "Helvetica Neue",  "Arial", sans-serif;
+}
+
+figcaption
+{
+  margin-bottom: 20px;
+}
+
+.vertical-align
+{
+  display: flex;
+  align-items: center;
+}
+
+.credits
+{
+  min-height:20px;
+}
+    </style>
+
+  </head>
+
+  <body>
+
+    <div class="container">
+<style>
+
+
+code
+{
+  font-family: "Monaco";
+  font-size: 110%;
+}
+
+img
+{
+  padding:1px;
+  border:1px solid black;
+}
+
+h1
+{
+  font-style:italic;
+  font-size:130%;
+  border-bottom: thin solid black;
+}
+h2
+{
+  font-size:110%;
+  border-bottom: thin solid black;
+}
+h3
+{
+  font-size:100%;
+  border-bottom: thin solid black;
+}
+
+</style>
+
+<div class="navbar navbar-default navbar-inverse navbar-fixed-top">
+  <div class="container">
+    <div class="navbar-header">
+      <a type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse"><span class="sr-only">Toggle navigation</span><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></a>
+      <div class="navbar-brand">
+        <a onclick="window.history.back()" href="#"> <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span> </a>
+        Assignment 2
+      </div>
+    </div>
+    <div class="collapse navbar-collapse navbar-ex1-collapse">
+      <ul class="nav navbar-nav navbar-right">
+        <li class="active"><a href= "#Lab-08" data-toggle="tab"> Lab-08 </a> </li>
+          <li><a href= "#01" data-toggle="tab"> 01 </a> </li>
+          <li><a href= "#02" data-toggle="tab"> 02 </a> </li>
+          <li><a href= "#03" data-toggle="tab"> 03 </a> </li>
+          <li><a href= "#04" data-toggle="tab"> 04 </a> </li>
+          <li><a href= "#05" data-toggle="tab"> 05 </a> </li>
+          <li><a href= "#Exercises" data-toggle="tab"> Exercises </a> </li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<br><br>
+
+<div class="tab-content">
+  <div class="tab-pane active" id="Lab-08">
+    <h1>Objectives</h1>
+<p>Complete the implementation of the Assignment 1</p>
+  </div>
+
+    <div class="tab-pane fade" id="01">
+      <h1>Logedin Status</h1>
+<p>The starting point of this lab is the solution from the previous lab:</p>
+<ul>
+<li><a href="archives/spacebook-assignment-part-2.zip">spacebook-assignment-part-2.zip</a></li>
+</ul>
+<p>Be sure to import this project - it will be named 'spacebook-assignment-part-2' when you import it.</p>
+<h2>User Model</h2>
+<p>To support logged in status - introduce a new field into the User class:</p>
+<pre><code>  public boolean online;
+</code></pre>
+
+<h2>Account</h2>
+<p>In the account class, we need to maintain this field in the Authenticate method:</p>
+<pre><code>  public static void authenticate(String email, String password)
+  {
+    Logger.info(&quot;Attempting to authenticate with &quot; + email + &quot;:&quot; + password);
+
+    User user = User.findByEmail(email);
+    if ((user != null) &amp;&amp; (user.checkPassword(password) == true))
+    {
+      Logger.info(&quot;Authentication successful&quot;);
+      session.put(&quot;logged_in_userid&quot;, user.id);
+      user.online = true;
+      user.save();
+      Home.index();
+    }
+    else
+    {
+      Logger.info(&quot;Authentication failed&quot;);
+      login();
+    }
+  }
+</code></pre>
+
+<p>and also in logout:</p>
+<pre><code>  public static void logout()
+  {
+    String userId = session.get(&quot;logged_in_userid&quot;);
+    User user = User.findById(Long.parseLong(userId));
+    user.online = false;
+    user.save();
+    session.clear();
+    index();
+  }
+</code></pre>
+
+<p>The friends and members components now need to be updated to represent the status:</p>
+<h2>views/components/friends.html</h2>
+<pre><code>&lt;section class=&quot;ui stacked segment&quot;&gt;
+  &lt;h4 class=&quot;ui inverted red block header&quot;&gt;Friends (${user.friendships.size()})&lt;/h4&gt;
+  &lt;div class=&quot;ui list&quot;&gt; 
+    #{list items:user.friendships, as:'friendship'}
+      &lt;div class=&quot;ui item&quot;&gt; 
+        #{if friendship.targetUser.online}
+          &lt;i class=&quot;user green icon&quot;&gt;&lt;/i&gt;
+        #{/if}
+        #{else}
+          &lt;i class=&quot;user red icon&quot;&gt;&lt;/i&gt;
+        #{/else}
+        &lt;div class=&quot;content&quot;&gt;
+          &lt;a href=&quot;/publicprofile/${friendship.targetUser.id}&quot;&gt; ${friendship.targetUser.firstName} ${friendship.targetUser.lastName} &lt;/a&gt;
+            (&lt;a href=&quot;/home/drop/${friendship.targetUser.id}&quot;&gt; drop &lt;/a&gt;)
+        &lt;/div&gt;
+      &lt;/div&gt;
+    #{/list}
+  &lt;/div&gt; 
+&lt;/section&gt; 
+</code></pre>
+
+<h2>views/components/members.html</h2>
+<pre><code>&lt;section class=&quot;ui stacked segment&quot;&gt;
+  &lt;div class=&quot;ui list&quot;&gt; 
+    #{list items:users, as:'user'}
+      &lt;div class=&quot;ui item&quot;&gt; 
+        #{if user.online}
+          &lt;i class=&quot;user green icon&quot;&gt;&lt;/i&gt;
+        #{/if}
+        #{else}
+          &lt;i class=&quot;user red icon&quot;&gt;&lt;/i&gt;
+        #{/else}
+        &lt;div class=&quot;content&quot;&gt;
+          ${user.firstName} ${user.lastName}: : ${user.statusText}  &lt;a href=&quot;members/follow/${user.id}&quot;&gt; (follow) &lt;/a&gt; 
+        &lt;/div&gt;
+      &lt;/div&gt;
+    #{/list}
+  &lt;/div&gt;
+&lt;/section&gt;
+</code></pre>
+
+<p>Look closely at the if statements above.</p>
+<p>This should now work - verify by logging in to two separate accounts simultaneously (you will need to use 2 different browsers types).</p>
+    </div>
+    <div class="tab-pane fade" id="02">
+      <h1>Comment Date/Time</h1>
+<p>We already have the date/time recorded in the Comment class as the <code>postedAt</code> field:</p>
+<h2>Comment:</h2>
+<pre><code>@Entity
+public class Comment extends Model
+{
+  @Lob
+  public String content;
+
+  @OneToOne 
+  public User author;
+
+  public Date postedAt;
+
+  public Comment(User author, String content)
+  {
+    this.author   = author;
+    this.content  = content;
+    this.postedAt = new Date();
+  }
+}
+</code></pre>
+
+<p>It is created (with the current actual time) when Comment objects are created.</p>
+<p>To display the time/date, a small change to the BlogPost view:</p>
+<h2>Views/BlogPost/view.html</h2>
+<pre><code>...
+  &lt;section class=&quot;ui stacked segment&quot;&gt;
+    &lt;h5 class=&quot;ui inverted blue block header&quot;&gt;Comments:&lt;/h5&gt;
+    #{list items:post.comments, as:'comment'}
+      &lt;p&gt; 
+        ${comment.content} : ${comment.author.firstName} : on : ${comment.postedAt.format('dd MMM yy HH:mm:ss')}
+        &lt;hr&gt;
+      &lt;/p&gt;
+    #{/list}  
+  &lt;/section&gt;
+...
+</code></pre>
+
+<p>Try no to see if the date is accurately presented.</p>
+    </div>
+    <div class="tab-pane fade" id="03">
+      <h1>Public Blog</h1>
+<h2>conf/route</h2>
+<p>Introduce a new route to support the public browsing of blogs:</p>
+<pre><code>GET   /blog/publicblog/{userid}                      Blog.publicblog
+</code></pre>
+
+<h2>controllers/Blog</h2>
+<p>This is the new method in the Blog controller to service this route:</p>
+<pre><code>  public static void publicblog(Long userid)
+  {
+    User user = User.findById(userid);
+    render(user);
+  }
+</code></pre>
+
+<h2>view/Blog/publicblog.html</h2>
+<p>We need a new view to be rendered by the above action:</p>
+<pre><code>#{extends 'main.html' /}
+#{set title:'Blog' /}
+
+&lt;nav class=&quot;ui inverted menu&quot;&gt;
+  &lt;a  class=&quot;item&quot; href=&quot;/home&quot;&gt;Spacebook&lt;/a&gt;
+&lt;/nav&gt; 
+
+&lt;h1 class=&quot;ui inverted red block header&quot; &gt;${user.firstName} ${user.lastName} 's Blog&lt;/h1&gt;
+
+&lt;section class=&quot;ui stacked segment&quot;&gt;
+  &lt;h2 class=&quot;ui inverted blue block header&quot;&gt;Published Posts&lt;/h4&gt;
+  #{list items:user.posts, as:'post'}
+    &lt;h3 class=&quot;ui inverted green block header&quot;&gt; ${post.title}&lt;/h4&gt;
+    &lt;p&gt; ${post.content} &lt;/a&gt; 
+
+    &lt;section class=&quot;ui raised segment&quot;&gt;
+    &lt;h5 class=&quot;ui inverted teal block header&quot;&gt;Comments:&lt;/h5&gt;
+    #{list items:post.comments, as:'comment'}
+      &lt;p&gt; 
+        ${comment.content} : ${comment.author.firstName} : on : ${comment.postedAt.format('dd MMM yy HH:mm:ss')}
+        &lt;hr&gt;
+      &lt;/p&gt;                 
+    #{/list}  
+    &lt;/section&gt;   
+  #{/list}
+&lt;/section&gt;
+</code></pre>
+
+<p>Look carefully at the above code - particularly the controller action. We need the user id to find the correct user object. We then pass this to the view, which walks the posts the user has made and displays them.</p>
+<p>How would you try our the above? We can try it out by typing in correct routes directly into the browser title bar:</p>
+<ul>
+<li><a href="http://localhost:9000/blog/publicblog/1">http://localhost:9000/blog/publicblog/1</a></li>
+</ul>
+<p>The above link will work if there is a user with id 1. Try out a few different ids.</p>
+    </div>
+    <div class="tab-pane fade" id="04">
+      <h1>Links to Public Blog</h1>
+<h2>Views/compoments/members.html</h2>
+<p>Here is a replacement for the members component:</p>
+<pre><code>  &lt;table class=&quot;ui table segment&quot;&gt;
+    &lt;tbody&gt;
+      &lt;tr&gt;
+        #{list items:users, as:'user'}
+        &lt;tr&gt;
+          &lt;td&gt;
+            #{if user.online}
+              &lt;i class=&quot;user green icon&quot;&gt;&lt;/i&gt;
+            #{/if}
+            #{else}
+              &lt;i class=&quot;user red icon&quot;&gt;&lt;/i&gt;
+            #{/else}
+          &lt;/td&gt;
+          &lt;td&gt;
+            ${user.firstName} ${user.lastName}
+          &lt;/td&gt;
+          &lt;td&gt;
+            ${user.statusText}  
+          &lt;/td&gt;
+          &lt;td&gt;
+            &lt;a href=&quot;members/follow/${user.id}&quot;&gt; (follow) &lt;/a&gt; 
+          &lt;/td&gt;  
+          &lt;td&gt;
+            &lt;a href=&quot;/blog/publicblog/${user.id}&quot;&gt; Blog &lt;/a&gt;
+          &lt;/td&gt;
+        &lt;/tr&gt;
+        #{/list}
+    &lt;/tbody&gt;
+  &lt;/table&gt;  
+</code></pre>
+
+<p>This should present a link to each users blog on the members page.</p>
+<h2>views/Accounts/index.html</h2>
+<p>We can now also include this in the start page:</p>
+<pre><code>...
+&lt;section class=&quot;ui raised segment&quot;&gt;
+  &lt;p&gt; Signup or Log in to the Spacebook Service &lt;/p&gt;
+  #{include &quot;components/members.html&quot; /} 
+&lt;/section&gt;
+</code></pre>
+
+<h2>controllers/Accounts:</h2>
+<p>For the above to work, we need to make sure all the users are sent to this view:</p>
+<pre><code>  public static void index()
+  {
+    List&lt;User&gt; users = User.findAll();
+    render(users);
+  }
+</code></pre>
+
+<p>Now all blogs are listed on the start page + on the members page.</p>
+    </div>
+    <div class="tab-pane fade" id="05">
+      <h1>Commenting on Public Blogs</h1>
+<h2>conf/routes</h2>
+<p>To support commenting on public blogs, we need a new route:</p>
+<pre><code>POST  /blog/publicblog/{userid}/newcomment/{postid}  Blog.newComment
+</code></pre>
+
+<p>Note this route need 2 ids: the user and the blog post we are commenting on. Note also then way the url is constructed, with the user id in the middle of the path.</p>
+<h2>controllers/Blog</h2>
+<p>This is the action to support this route:</p>
+<pre><code>  public static void newComment(Long userid, Long postid, String content)
+  {    
+    Logger.info(&quot;Post ID = &quot; + postid);
+    Post post = Post.findById(postid);
+
+    User user = Accounts.getLoggedInUser();
+    Comment comment = new Comment(user, content);    
+    post.comments.add(comment);
+    post.save();
+    publicblog(userid);
+  }  
+</code></pre>
+
+<p>Read this action very carefully - particularly note the role of 'userid' in the method.</p>
+<p>To go with the above, we also need a new version of publicBlog in the same class:</p>
+<pre><code>  public static void publicblog(Long userid)
+  {
+    User loggedInUser = null;
+    String userId     = session.get(&quot;logged_in_userid&quot;);
+    if (userId != null)
+    {
+      loggedInUser = User.findById(Long.parseLong(userId));
+    }
+
+    User user = User.findById(userid);
+    render(user, loggedInUser);
+  }
+</code></pre>
+
+<p>Again, read this carefully. Note that we are now passing two parameters to the view. What are they?</p>
+<h2>views/Blog/publicblog.html</h2>
+<p>This is a new version of this view:</p>
+<pre><code>#{extends 'main.html' /}
+#{set title:'Blog' /}
+
+&lt;nav class=&quot;ui inverted menu&quot;&gt;
+  &lt;a  class=&quot;item&quot; href=&quot;/home&quot;&gt;Spacebook&lt;/a&gt;
+  &lt;div class=&quot;right menu&quot;&gt;
+    #{if loggedInUser}
+      &lt;div class=&quot;item&quot;&gt; Logged in as ${loggedInUser.firstName} ${loggedInUser.lastName} &lt;/div&gt;
+    #{/if}
+    #{else}
+      &lt;a class=&quot;item&quot; href=&quot;/login&quot;&gt; Log in to comment &lt;/a&gt;
+    #{/else}
+  &lt;/div&gt;
+&lt;/nav&gt; 
+
+&lt;h1 class=&quot;ui inverted red block header&quot; &gt;${user.firstName} ${user.lastName} 's Blog&lt;/h1&gt;
+
+&lt;section class=&quot;ui stacked segment&quot;&gt;
+  &lt;h2 class=&quot;ui inverted blue block header&quot;&gt;Published Posts&lt;/h4&gt;
+  #{list items:user.posts, as:'post'}
+    &lt;h3 class=&quot;ui inverted green block header&quot;&gt; ${post.title}&lt;/h4&gt;
+    &lt;p&gt; ${post.content} &lt;/a&gt; 
+
+    &lt;section class=&quot;ui raised segment&quot;&gt;
+    &lt;h5 class=&quot;ui inverted teal block header&quot;&gt;Comments:&lt;/h5&gt;
+    #{list items:post.comments, as:'comment'}
+      &lt;p&gt; 
+        ${comment.content} : ${comment.author.firstName} : on : ${comment.postedAt.format('dd MMM yy HH:mm:ss')}
+        &lt;hr&gt;
+      &lt;/p&gt;                 
+    #{/list}  
+    #{if loggedInUser}
+      &lt;section class=&quot;ui form segment&quot;&gt;
+        &lt;h4 class=&quot;ui inverted blue block header&quot;&gt;Add a comment&lt;/h4&gt;
+        &lt;form action=&quot;/blog/publicblog/${user.id}/newcomment/${post.id}&quot; method=&quot;POST&quot;&gt;
+          &lt;div class=&quot;field&quot;&gt;
+            &lt;textarea name=&quot;content&quot; placeholder=&quot;Content&quot;&gt;&lt;/textarea&gt;
+          &lt;/div&gt;
+          &lt;button class=&quot;ui button green submit labeled icon&quot;&gt;&lt;i class=&quot;icon edit&quot;&gt;&lt;/i&gt; Add Comment &lt;/button&gt;
+        &lt;/form&gt;
+      &lt;/section&gt;
+    #{/if}
+    &lt;/section&gt;   
+  #{/list}
+&lt;/section&gt;
+</code></pre>
+
+<p>Study it carefuly - and try it out now</p>
+    </div>
+    <div class="tab-pane fade" id="Exercises">
+      <h1>Exercises</h1>
+<p>This is the final version as at the end of this lab:</p>
+<ul>
+<li><a href="archives/spacebook-assignment-part-3.zip">spacebook-assignment-part-3.zip</a></li>
+</ul>
+<p>Import this into your workspace and run it to make sure all the feature behave as expected.</p>
+<h2>Exercise 1: Tags</h2>
+<p>Re-implement all of the templates in 'views/components' as tags. Look back on the previous labs to understand tags again and how they are implemented.</p>
+    </div>
+</div>
+<br> <br>
+
+
+    </div>
+
+
+<div class="credits navbar navbar-default navbar-fixed-bottom" role="navigation">
+  <small>
+    Prepared by Eamonn de Leastar (edeleastar@wit.ie). Except where otherwise noted, this content is licensed under a
+    <a href="http://creativecommons.org/licenses/by-nc/4.0/" title="External link to http://creativecommons.org/licenses/by-nc/4.0/"
+        target="_blank">Creative Commons Attribution-NonCommercial 4.0 License
+    </a>
+    </small>
+</div>    <script>
+
+$(document).ready(function()
+{
+  $("img").addClass ("img-responsive");
+
+  $(".tab-content img").each(function()
+  {
+    var title = this.alt;
+    $(this).after('<figcaption class="caption"> <em>'+ title +'</em></figcaption>');
+  });
+})    </script>
+
+  </body>
+ </html>
